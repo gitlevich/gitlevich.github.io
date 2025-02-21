@@ -1,69 +1,79 @@
 ┌───────────────────────────────────────────────────────────────────┐
 │ [Header]                                                          │
-│   • Logo: Agent.Farm (stylized to reflect farm + tech)            │
-│   • Navigation (if needed): Home | Services | Contact             │
+│   • Logo: Agent.Farm (stylized farm + tech theme)                 │
+│   • Navigation (optional): Home | Services | Contact              │
 │   • Primary CTA: “Schedule a Free Consult”                        │
 └───────────────────────────────────────────────────────────────────┘
 
 ┌───────────────────────────────────────────────────────────────────┐
 │ [Hero Section]                                                    │
-│   • Headline: “Farm-Raised AI for Your Small Business”            │
-│   • Subtext: “We bring decades of combined enterprise             │
-│     experience and a Domain-Driven Design approach to             │
-│     cultivate the perfect AI solution for your unique needs.”     │
-│   • Visual: Subtle farm-meets-tech graphic or illustration        │
+│   • Headline: “Farm-Raised AI for Your Business”                  │
+│   • Subtext: “We specialize in training domain-specific AI        │
+│     agents—like staff who truly understand your workflows,        │
+│     terminology, and customers.”                                  │
+│   • Visual: Subtle farm-meets-tech illustration (fields +         │
+│     circuit lines, for example)                                   │
 │   • CTA Button: “Get Started”                                     │
 └───────────────────────────────────────────────────────────────────┘
 
 ┌───────────────────────────────────────────────────────────────────┐
 │ [Who We Are] (Minimalist)                                         │
 │   • Short paragraph:                                              │
-│       “A bunch of seasoned software architects turned AI farmers. │
-│        Our mission: help small businesses grow through            │
-│        customized, domain-focused AI solutions.”                  │
-│   • Possible small mugshots or icons for each founder             │
-│     with a concise line on background/role.                       │
+│       “We’re seasoned software architects turned AI farmers.      │
+│        Our mission: help small businesses thrive through          │
+│        custom ‘vertical agents’—AI that’s trained on your         │
+│        unique domain knowledge, not generic off-the-shelf         │
+│        models.”                                                   │
+│   • Optionally: small founder icons or a concise background       │
+│     blurb, but no headcount mention                               │
 └───────────────────────────────────────────────────────────────────┘
 
 ┌───────────────────────────────────────────────────────────────────┐
 │ [Our Services / Approach]                                         │
-│   • Mini-sections (cards or columns):                             │
-│       1) Discovery & Domain Mapping:                              │
-│         “We immerse ourselves in your day-to-day operations,      │
-│          extracting the unique knowledge that powers your         │
+│   • Subsections (cards/columns):                                  │
+│       1) Discovery & Domain Mapping                               │
+│         “We immerse ourselves in your day-to-day processes,       │
+│          extracting the unique insights that power your           │
 │          business.”                                               │
-│       2) Automation Pilots:                                       │
-│         “Quick, high-impact automations to streamline routines.”  │
-│       3) Custom AI Agents:                                        │
-│         “We train specialized agents that truly ‘get’ your        │
-│          workflows and customers.”                                │
-│       4) Ongoing Tuning & Support:                                │
-│         “We help your AI grow alongside your business.”           │
+│       2) Automation Pilots                                        │
+│         “We create quick, high-value automations to streamline    │
+│          repetitive tasks, delivering immediate ROI.”             │
+│       3) Custom Vertical Agents                                   │
+│         “We train AI that genuinely ‘gets’ your operations—       │
+│          from your specialized terminology to your exact          │
+│          workflows—acting like a dedicated team member.”          │
+│       4) Ongoing Tuning & Support                                 │
+│         “Our support continues after deployment, ensuring your    │
+│          AI agent evolves with your business.”                    │
 └───────────────────────────────────────────────────────────────────┘
 
 ┌───────────────────────────────────────────────────────────────────┐
 │ [Case Studies / Examples]                                         │
 │   • Headline: “Our Agents in Action”                              │
-│   • 2 short project snapshots:                                    │
-│     – Hardware Store                                              │
-│       “Automated stock checks and customer tool advice.”          │
-│     – Wine Shop                                                   │
-│       “Predictive inventory and personalized wine suggestions.”   │
-│   • Each: Brief bullet points on benefits and results             │
+│   • Two brief snapshots:                                          │
+│       – Hardware Store                                            │
+│         “Automated stock checks, order triggers, and specialized  │
+│         product advice tied to store-specific terminology.”       │
+│       – Wine Shop                                                 │
+│         “Predictive restocking and personalized wine              │
+│         recommendations aligned with the shop’s tasting notes     │
+│         and customer preferences.”                                │
+│   • Each: short bullet points on benefits, focusing on domain-    │
+│     specific advantages                                           │
 └───────────────────────────────────────────────────────────────────┘
 
 ┌───────────────────────────────────────────────────────────────────┐
 │ [Call to Action / Contact]                                        │
 │   • Headline: “Ready to Cultivate Your Own AI?”                   │
-│   • Brief text: “Let’s discuss your unique domain and see how     │
-│     our farm-grown AI can help.”                                  │
+│   • Brief text: “Let’s talk about how a custom-trained,           │
+│     domain-focused AI agent can transform your business.”         │
 │   • Simple contact form (Name, Email, Message)                    │
 │   • Secondary CTA: “Book a 15-Minute Intro Call”                  │
 └───────────────────────────────────────────────────────────────────┘
 
 ┌───────────────────────────────────────────────────────────────────┐
 │ [Footer]                                                          │
-│   • Short copy: “© Agent.Farm, All Rights Reserved”               │
-│   • Links: Privacy Policy | Terms                                 │
+│   • Copy: “© Agent.Farm. All Rights Reserved.”                    │
+│   • Links: Privacy Policy | Terms (optional)                      │
 │   • Social media icons (if relevant)                              │
 └───────────────────────────────────────────────────────────────────┘
