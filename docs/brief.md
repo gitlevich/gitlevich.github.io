@@ -111,13 +111,6 @@ A single-page scroll layout with distinct sections:
 
 ---
 
-## Budget
-
-- **Under \$1,000**.
-- Open to transparent, itemized quotes (logo vs. site design).
-
----
-
 ## Success Criteria
 
 - **Clean, minimal** single-page layout highlighting the value of *vertical* AI agents.
