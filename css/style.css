@@ -20,100 +20,80 @@ body {
 
 /* Header */
 .header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1rem 2rem;
   background-color: #fafafa;
   border-bottom: 1px solid #eee;
 }
 
-/* Container for fixed-width centering */
 .container {
-  max-width: 1200px; /* or 960px, etc. */
+  max-width: 800px;
   margin: 0 auto;
-  padding: 0 1rem;   /* optional side padding */
+  padding: 0 1rem;
 }
 
 .header-content {
   display: flex;
-  align-items: center;         /* vertically center */
-  justify-content: space-between;  /* push logo left, nav right */
-  min-height: 70px;            /* can be bigger if needed */
-}
-
-/* Removed width/height from .header .logo img so it doesn't conflict. */
-.header .logo {
-  display: flex;
   align-items: center;
-  font-size: 1.25rem;
-  font-weight: bold;
+  justify-content: space-between;
+  min-height: 70px;
 }
 
-.header .logo img {
-  /*
-    No forced 32px sizing here.
-    If you want a small margin:
-  */
-  margin-right: 0.5rem;
-}
-
-/* This class controls the actual logo size. */
-/* Logo smaller */
+/* Logo */
 .logo-img {
-  width: 100px; /* instead of 150px */
+  display: block;
+  width: 100px; /* adjust as desired */
   height: auto;
 }
 
-/* Nav links bigger */
-.nav a {
-  font-size: 1.2rem; /* ~19px, tweak as needed */
-  margin: 0 1.5rem;
-}
-
-/* Button matches nav size */
-.btn-primary {
-  font-size: 1.2rem;
-  padding: 0.75rem 1.5rem;
-}
+/* Nav + Button */
 .nav {
-  display: flex;
+  display: flex; /* default (desktop) layout: horizontal */
   align-items: center;
 }
 
-/* Larger font for nav links */
 .nav a {
-  font-size: 1.2rem;
   margin: 0 1.5rem;
   text-decoration: none;
   color: #333;
-  font-weight: 700; /* or 600, whichever weight you prefer */
+  font-size: 1.125rem; /* ~18px */
+  font-weight: 700; /* bolder menu links */
 }
 
-/* Primary button */
 .btn-primary {
   background: var(--accent-color);
   color: #fff;
   border: none;
-  padding: 0.65rem 1.0rem;
+  padding: 0.75rem 1.5rem;
   cursor: pointer;
   border-radius: 4px;
   font-weight: 600;
-  font-size: 1.125rem; /* ~18px */
+  font-size: 1.125rem;
 }
 
 .btn-primary:hover {
   background: #469e95;
 }
 
-/* Hero Section */
+/* Hamburger button (hidden on desktop by default) */
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  margin-left: 1rem; /* spacing from logo */
+}
+
+/* Hero */
 .hero {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
   padding: 2rem 1rem;
   background: #fefefe;
+}
+
+.hero-content-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
 }
 
 .hero-content {
@@ -174,12 +154,12 @@ body {
   margin-bottom: 2rem;
 }
 
-/* Force exactly 2 columns on desktops, 1 column on mobile */
+/* 2 columns on desktop, 1 on mobile */
 .service-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr; /* Exactly 2 columns */
+  grid-template-columns: 1fr 1fr;
   gap: 2rem;
-  max-width: 800px;
+  max-width: 1000px;
   margin: 0 auto;
 }
 
@@ -195,12 +175,6 @@ body {
 .service-item h3 {
   margin-bottom: 1rem;
   color: var(--accent-color);
-}
-
-@media (max-width: 768px) {
-  .service-grid {
-    grid-template-columns: 1fr; /* single column on smaller screens */
-  }
 }
 
 /* Case Studies */
@@ -219,7 +193,7 @@ body {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 2rem;
-  max-width: 800px;
+  max-width: 1000px; /* match services width if you like */
   margin: 0 auto;
 }
 
@@ -297,18 +271,55 @@ body {
 }
 
 /* Responsive Adjustments */
+
+/* Mobile Nav: hide nav, show hamburger */
 @media (max-width: 768px) {
-  .hero {
+  .nav-toggle {
+    display: block; /* hamburger icon visible on mobile */
+  }
+
+  .nav {
+    display: none; /* hide nav by default on small screens */
+    flex-direction: column;
+    background: #fafafa;
+    padding: 1rem;
+    position: absolute;
+    top: 70px; /* just below header */
+    right: 0;
+    width: 200px; /* or your preferred menu width */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  }
+
+  .nav.nav--open {
+    display: flex; /* show nav when toggled */
+  }
+
+  .nav a {
+    margin: 1rem 0;
+  }
+
+  .btn-primary {
+    margin: 1rem 0 0 0;
+    width: 100%;
+  }
+
+  /* Make hero stack vertically */
+  .hero-content-wrap {
     flex-direction: column;
   }
+}
 
-  .hero-content,
-  .hero-graphic {
-    margin: 1rem auto;
+/* Desktop: hide hamburger, show nav inline */
+@media (min-width: 769px) {
+  .nav-toggle {
+    display: none;
   }
 
-  .header-content {
-    flex-wrap: wrap;
-    justify-content: center;
+  .nav {
+    display: flex; /* horizontal nav for desktop */
+    position: static;
+    box-shadow: none;
+    width: auto;
+    padding: 0;
   }
 }

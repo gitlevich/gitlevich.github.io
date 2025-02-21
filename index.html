@@ -1,21 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="description" content="Agent.Farm — Farm-Raised AI for Your Business" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8"/>
+  <meta name="description" content="Agent.Farm — Farm-Raised AI for Your Business"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Agent.Farm</title>
-  <link rel="stylesheet" href="css/style.css" />
-  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 </head>
 <body>
 <!-- Header -->
 <header class="header">
   <div class="container header-content">
     <div class="logo">
-      <img src="img/logo.svg" alt="Agent.Farm logo" class="logo-img" />
+      <img src="img/logo.svg" alt="Agent.Farm logo" class="logo-img"/>
     </div>
-    <nav class="nav">
+
+    <!-- Hamburger button for mobile -->
+    <button class="nav-toggle" onclick="toggleNav()">☰</button>
+
+    <!-- Navigation -->
+    <nav class="nav" id="mainNav">
       <a href="#services">Services</a>
       <a href="#cases">Case Studies</a>
       <a href="#contact">Contact</a>
@@ -28,7 +33,7 @@
 
 <!-- Hero Section -->
 <section id="hero" class="hero">
-  <div class="container hero-inner">
+  <div class="container hero-content-wrap">
     <div class="hero-content">
       <h1>Farm-Raised AI for Your Business</h1>
       <p>
@@ -36,10 +41,12 @@
         terminology, and customers—acting like specialized staff for your
         unique needs.
       </p>
-      <button class="btn-primary" onclick="scrollToSection('contact')">Get Started</button>
+      <button class="btn-primary" onclick="scrollToSection('contact')">
+        Get Started
+      </button>
     </div>
     <div class="hero-graphic">
-      <img src="img/hero_placeholder.png" alt="Farm-meets-tech graphic" />
+      <img src="img/hero_placeholder.png" alt="Farm-meets-tech graphic"/>
     </div>
   </div>
 </section>
@@ -63,19 +70,31 @@
     <div class="service-grid">
       <div class="service-item">
         <h3>Discovery & Domain Mapping</h3>
-        <p>We immerse ourselves in your day-to-day, extracting the insights that power your business.</p>
+        <p>
+          We immerse ourselves in your day-to-day, extracting the unique
+          insights and processes that power your business.
+        </p>
       </div>
       <div class="service-item">
         <h3>Automation Pilots</h3>
-        <p>Quick, high-impact automations to streamline repetitive tasks and prove immediate value.</p>
+        <p>
+          Quick, high-impact automations to streamline repetitive tasks
+          and prove immediate value.
+        </p>
       </div>
       <div class="service-item">
         <h3>Custom Vertical Agents</h3>
-        <p>We train AI that genuinely "gets" your operations—speaking your language like a dedicated team member.</p>
+        <p>
+          We train AI that genuinely "gets" your operations—speaking
+          your language and acting like a dedicated team member.
+        </p>
       </div>
       <div class="service-item">
         <h3>Ongoing Tuning & Support</h3>
-        <p>We help your AI grow alongside your business, ensuring agents stay aligned and effective.</p>
+        <p>
+          We help your AI grow alongside your business, ensuring your
+          agents stay aligned and effective.
+        </p>
       </div>
     </div>
   </div>
@@ -90,14 +109,15 @@
         <h3>Hardware Store</h3>
         <p>
           Automated stock checks, reorders, and tool advice tailored to
-          the store’s unique terminology and inventory.
+          the store’s unique terminology and inventory structure.
         </p>
       </div>
       <div class="case-item">
         <h3>Wine Shop</h3>
         <p>
-          Predictive restocking and personalized recommendations aligned
-          with the shop’s tasting profiles and customers.
+          Predictive restocking and personalized wine recommendations
+          aligned with the shop’s tasting profiles and customer
+          preferences.
         </p>
       </div>
     </div>
@@ -108,15 +128,18 @@
 <section id="contact" class="contact">
   <div class="container">
     <h2>Ready to Cultivate Your Own AI?</h2>
-    <p>Let’s discuss how a custom-trained, domain-focused AI agent can transform your business.</p>
+    <p>
+      Let’s discuss how a custom-trained, domain-focused AI agent can
+      transform your business.
+    </p>
     <form class="contact-form">
       <div class="form-group">
         <label for="name">Name</label>
-        <input type="text" id="name" placeholder="Your Name" required />
+        <input type="text" id="name" placeholder="Your Name" required/>
       </div>
       <div class="form-group">
         <label for="email">Email</label>
-        <input type="email" id="email" placeholder="Your Email" required />
+        <input type="email" id="email" placeholder="Your Email" required/>
       </div>
       <div class="form-group">
         <label for="message">Message</label>
@@ -135,5 +158,19 @@
 </footer>
 
 <script src="js/app.js"></script>
+<script>
+  // Simple scroll function if needed
+  function scrollToSection(id) {
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({behavior: "smooth"});
+    }
+  }
+
+  // Hamburger toggle for mobile nav
+  function toggleNav() {
+    document.getElementById("mainNav").classList.toggle("nav--open");
+  }
+</script>
 </body>
 </html>
