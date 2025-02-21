@@ -18,3 +18,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+
+// Toggle hamburger nav on mobile
+function toggleNav() {
+  const nav = document.getElementById("mainNav");
+  nav.classList.toggle("nav--open");
+}

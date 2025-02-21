@@ -1,25 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="description" content="Agent.Farm — Farm-Raised AI for Your Business"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8" />
+  <meta name="description" content="Agent.Farm — Farm-Raised AI for Your Business" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Agent.Farm</title>
-  <link rel="stylesheet" href="css/style.css"/>
-  <link rel="icon" href="favicon.ico" type="image/x-icon"/>
+  <!-- Link to our external CSS -->
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
 </head>
 <body>
 <!-- Header -->
 <header class="header">
   <div class="container header-content">
     <div class="logo">
-      <img src="img/logo.svg" alt="Agent.Farm logo" class="logo-img"/>
+      <!-- Logo Example (replace with your actual logo file) -->
+      <img src="img/logo.svg" alt="Agent.Farm logo" class="logo-img" />
     </div>
 
-    <!-- Hamburger button for mobile -->
+    <!-- Hamburger button (hidden on desktop) -->
     <button class="nav-toggle" onclick="toggleNav()">☰</button>
 
-    <!-- Navigation -->
+    <!-- Navigation links; hidden on mobile until toggle -->
     <nav class="nav" id="mainNav">
       <a href="#services">Services</a>
       <a href="#cases">Case Studies</a>
@@ -46,7 +48,7 @@
       </button>
     </div>
     <div class="hero-graphic">
-      <img src="img/hero_placeholder.png" alt="Farm-meets-tech graphic"/>
+      <img src="img/hero_placeholder.png" alt="Farm-meets-tech graphic" />
     </div>
   </div>
 </section>
@@ -135,11 +137,11 @@
     <form class="contact-form">
       <div class="form-group">
         <label for="name">Name</label>
-        <input type="text" id="name" placeholder="Your Name" required/>
+        <input type="text" id="name" placeholder="Your Name" required />
       </div>
       <div class="form-group">
         <label for="email">Email</label>
-        <input type="email" id="email" placeholder="Your Email" required/>
+        <input type="email" id="email" placeholder="Your Email" required />
       </div>
       <div class="form-group">
         <label for="message">Message</label>
@@ -157,20 +159,7 @@
   </div>
 </footer>
 
+<!-- JavaScript Files -->
 <script src="js/app.js"></script>
-<script>
-  // Simple scroll function if needed
-  function scrollToSection(id) {
-    const el = document.getElementById(id);
-    if (el) {
-      el.scrollIntoView({behavior: "smooth"});
-    }
-  }
-
-  // Hamburger toggle for mobile nav
-  function toggleNav() {
-    document.getElementById("mainNav").classList.toggle("nav--open");
-  }
-</script>
 </body>
 </html>

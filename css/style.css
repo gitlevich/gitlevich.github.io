@@ -25,7 +25,7 @@ body {
 }
 
 .container {
-  max-width: 800px;
+  max-width: 800px; /* Constrain to ~800px wide */
   margin: 0 auto;
   padding: 0 1rem;
 }
@@ -44,20 +44,21 @@ body {
   height: auto;
 }
 
-/* Nav + Button */
+/* Nav + Toggle */
 .nav {
-  display: flex; /* default (desktop) layout: horizontal */
+  display: flex; /* default for desktop: horizontal menu */
   align-items: center;
 }
 
 .nav a {
-  margin: 0 1.5rem;
+  margin: 0 1rem;
   text-decoration: none;
   color: #333;
-  font-size: 1.125rem; /* ~18px */
-  font-weight: 700; /* bolder menu links */
+  font-size: 1.125rem; /* ~18px for more prominent menu */
+  font-weight: 700;    /* bolder menu links */
 }
 
+/* Primary button styles */
 .btn-primary {
   background: var(--accent-color);
   color: #fff;
@@ -73,14 +74,14 @@ body {
   background: #469e95;
 }
 
-/* Hamburger button (hidden on desktop by default) */
+/* Hamburger button (hidden on desktop) */
 .nav-toggle {
   display: none;
   background: none;
   border: none;
-  font-size: 1.5rem;
+  font-size: 1.5rem; /* size of the hamburger icon */
   cursor: pointer;
-  margin-left: 1rem; /* spacing from logo */
+  margin-left: 1rem;
 }
 
 /* Hero */
@@ -193,7 +194,7 @@ body {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 2rem;
-  max-width: 1000px; /* match services width if you like */
+  max-width: 1000px;
   margin: 0 auto;
 }
 
@@ -272,49 +273,44 @@ body {
 
 /* Responsive Adjustments */
 
-/* Mobile Nav: hide nav, show hamburger */
+/* Mobile Nav: hide nav, show hamburger button */
 @media (max-width: 768px) {
   .nav-toggle {
-    display: block; /* hamburger icon visible on mobile */
+    display: block; /* show hamburger on mobile */
   }
-
   .nav {
-    display: none; /* hide nav by default on small screens */
+    display: none;  /* hide nav on mobile by default */
     flex-direction: column;
     background: #fafafa;
     padding: 1rem;
     position: absolute;
-    top: 70px; /* just below header */
+    top: 70px;      /* below header */
     right: 0;
-    width: 200px; /* or your preferred menu width */
+    width: 200px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
   }
-
   .nav.nav--open {
     display: flex; /* show nav when toggled */
   }
-
   .nav a {
-    margin: 1rem 0;
+    margin: 1rem 0; /* stacked spacing */
   }
-
   .btn-primary {
-    margin: 1rem 0 0 0;
+    margin: 1rem 0 0;
     width: 100%;
   }
 
-  /* Make hero stack vertically */
+  /* Make hero content stack vertically */
   .hero-content-wrap {
     flex-direction: column;
   }
 }
 
-/* Desktop: hide hamburger, show nav inline */
+/* Desktop: hide hamburger, show nav horizontally */
 @media (min-width: 769px) {
   .nav-toggle {
     display: none;
   }
-
   .nav {
     display: flex; /* horizontal nav for desktop */
     position: static;
