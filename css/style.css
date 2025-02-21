@@ -40,13 +40,13 @@ body {
 /* Logo */
 .logo-img {
   display: block;
-  width: 100px; /* adjust as desired */
+  width: 100px;
   height: auto;
 }
 
 /* Nav + Toggle */
 .nav {
-  display: flex; /* default for desktop: horizontal menu */
+  display: flex;
   align-items: center;
 }
 
@@ -54,11 +54,10 @@ body {
   margin: 0 1rem;
   text-decoration: none;
   color: #333;
-  font-size: 1.125rem; /* ~18px for more prominent menu */
-  font-weight: 700;    /* bolder menu links */
+  font-size: 1.125rem; /* ~18px */
+  font-weight: 700;
 }
 
-/* Primary button styles */
 .btn-primary {
   background: var(--accent-color);
   color: #fff;
@@ -79,7 +78,7 @@ body {
   display: none;
   background: none;
   border: none;
-  font-size: 1.5rem; /* size of the hamburger icon */
+  font-size: 1.5rem;
   cursor: pointer;
   margin-left: 1rem;
 }
@@ -155,7 +154,7 @@ body {
   margin-bottom: 2rem;
 }
 
-/* 2 columns on desktop, 1 on mobile */
+/* 2 columns on desktop, override to 1 column on small screens */
 .service-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -276,24 +275,24 @@ body {
 /* Mobile Nav: hide nav, show hamburger button */
 @media (max-width: 768px) {
   .nav-toggle {
-    display: block; /* show hamburger on mobile */
+    display: block;
   }
   .nav {
-    display: none;  /* hide nav on mobile by default */
+    display: none;
     flex-direction: column;
     background: #fafafa;
     padding: 1rem;
     position: absolute;
-    top: 70px;      /* below header */
+    top: 70px;
     right: 0;
     width: 200px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
   }
   .nav.nav--open {
-    display: flex; /* show nav when toggled */
+    display: flex;
   }
   .nav a {
-    margin: 1rem 0; /* stacked spacing */
+    margin: 1rem 0;
   }
   .btn-primary {
     margin: 1rem 0 0;
@@ -304,6 +303,11 @@ body {
   .hero-content-wrap {
     flex-direction: column;
   }
+
+  /* Force Services grid to 1 column on smaller screens */
+  .service-grid {
+    grid-template-columns: 1fr !important;
+  }
 }
 
 /* Desktop: hide hamburger, show nav horizontally */
@@ -312,7 +316,7 @@ body {
     display: none;
   }
   .nav {
-    display: flex; /* horizontal nav for desktop */
+    display: flex;
     position: static;
     box-shadow: none;
     width: auto;
