@@ -44,7 +44,7 @@ body {
   height: auto;
 }
 
-/* Nav + Toggle */
+/* Nav */
 .nav {
   display: flex;
   align-items: center;
@@ -58,6 +58,7 @@ body {
   font-weight: 700;
 }
 
+/* Primary Button */
 .btn-primary {
   background: var(--accent-color);
   color: #fff;
@@ -68,32 +69,30 @@ body {
   font-weight: 600;
   font-size: 1.125rem;
 }
-
 .btn-primary:hover {
   background: #469e95;
 }
 
-/* Hamburger button (hidden on desktop) */
-.nav-toggle {
-  display: none;
-  background: none;
-  border: none;
-  font-size: 1.5rem;
-  cursor: pointer;
-  margin-left: 1rem;
-}
-
 /* Hero */
 .hero {
+  position: relative;   /* so we can absolutely place ratio container behind content */
   padding: 2rem 1rem;
   background: #fefefe;
+  overflow: hidden;     /* hide any absolute overflow */
 }
 
+.hero-content .btn-primary {
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+/* The hero content (text, image) on top, z-index:2 */
 .hero-content-wrap {
+  position: relative;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
+  z-index: 2;
 }
 
 .hero-content {
@@ -106,6 +105,8 @@ body {
 .hero-content h1 {
   font-size: 2rem;
   margin-bottom: 1rem;
+  color: #111; /* darker than #333 */
+  text-shadow: 0 1px 2px rgba(255,255,255,0.7);
 }
 
 .hero-content p {
@@ -120,41 +121,93 @@ body {
   margin: 1rem;
   text-align: center;
 }
-
 .hero-graphic img {
   max-width: 100%;
   height: auto;
 }
 
+/* The partial-width ratio container behind hero text,
+   never narrower than 600px, same max as .container (800px),
+   with aspect ratio 8:3, 40% opacity, no vertical squish. */
+
+.hero-ratio-container {
+  position: absolute;
+  top: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 800px;     /* same as .container’s max-width */
+  min-width: 600px;     /* never narrower than 600px */
+  aspect-ratio: 8 / 3;  /* keeps 384×144 shape */
+  opacity: 0.4;         /* 40% */
+  pointer-events: none; /* text remains clickable */
+  z-index: 1;
+  background: #000;     /* fallback if canvas is blank */
+  overflow: hidden;
+}
+.hero-ratio-container canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  background: #222; /* fallback if not drawn yet */
+  filter: brightness(0.9) contrast(1.1);
+}
+
+.hero-content h1,
+.hero-content p {
+  color: #111; /* stronger than #333 */
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.6);
+}
+.hero-content {
+  background: rgba(255, 255, 255, 0.2); /* or 0.7, etc. */
+  border-radius: 6px;
+  padding: 1rem;
+  display: inline-block; /* so it only spans the text area */
+}
+.hero-content {
+  position: relative;
+  z-index: 2;
+  padding: 2rem; /* or adjust to taste */
+  background: transparent; /* remove any old background if present */
+}
+
+/* Blurred edge “card” behind the text */
+.hero-content::before {
+  content: "";
+  position: absolute;
+  top: -10px; left: -10px; right: -10px; bottom: -10px;
+  background: rgba(255, 255, 255, 0.2);
+  filter: blur(10px);
+  border-radius: 8px;
+  z-index: -1; /* behind the actual text */
+}
 /* Who We Are */
 .who-we-are {
   padding: 3rem 1rem;
   text-align: center;
 }
-
 .who-we-are h2 {
   font-size: 1.75rem;
   margin-bottom: 1rem;
 }
-
 .who-we-are p {
   max-width: 600px;
   margin: 0 auto;
   line-height: 1.4;
 }
 
-/* Services / Approach */
+/* Services */
 .services {
   padding: 3rem 1rem;
   text-align: center;
 }
-
 .services h2 {
   font-size: 1.75rem;
   margin-bottom: 2rem;
 }
-
-/* 2 columns on desktop, override to 1 column on small screens */
 .service-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -162,7 +215,6 @@ body {
   max-width: 1000px;
   margin: 0 auto;
 }
-
 .service-item {
   background: #fafafa;
   border-radius: 6px;
@@ -171,7 +223,6 @@ body {
   border: 1px solid #eee;
   line-height: 1.4;
 }
-
 .service-item h3 {
   margin-bottom: 1rem;
   color: var(--accent-color);
@@ -183,12 +234,10 @@ body {
   background: #f9f9f9;
   text-align: center;
 }
-
 .cases h2 {
   font-size: 1.75rem;
   margin-bottom: 2rem;
 }
-
 .case-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -196,7 +245,6 @@ body {
   max-width: 1000px;
   margin: 0 auto;
 }
-
 .case-item {
   background: #fff;
   border: 1px solid #eee;
@@ -204,7 +252,6 @@ body {
   padding: 1.5rem;
   text-align: left;
 }
-
 .case-item h3 {
   margin-bottom: 0.75rem;
   color: var(--accent-color);
@@ -215,45 +262,34 @@ body {
   padding: 3rem 1rem;
   text-align: center;
 }
-
 .contact h2 {
   font-size: 1.75rem;
   margin-bottom: 1rem;
 }
-
 .contact p {
   max-width: 600px;
   margin: 0 auto 2rem auto;
   line-height: 1.4;
 }
-
 .contact-form {
   max-width: 600px;
   margin: 0 auto;
   text-align: left;
 }
-
 .form-group {
   margin-bottom: 1rem;
 }
-
 .form-group label {
   display: block;
   font-weight: 600;
   margin-bottom: 0.5rem;
 }
-
 .form-group input,
 .form-group textarea {
   width: 100%;
   padding: 0.5rem;
   border: 1px solid #ccc;
   border-radius: 4px;
-}
-
-.contact-form button {
-  margin-top: 1rem;
-  width: 100%;
 }
 
 /* Footer */
@@ -264,62 +300,26 @@ body {
   border-top: 1px solid #eee;
   margin-top: 3rem;
 }
-
 .footer p {
   font-size: 0.9rem;
   color: #666;
 }
 
 /* Responsive Adjustments */
-
-/* Mobile Nav: hide nav, show hamburger button */
 @media (max-width: 768px) {
-  .nav-toggle {
-    display: block;
-  }
-  .nav {
-    display: none;
-    flex-direction: column;
-    background: #fafafa;
-    padding: 1rem;
-    position: absolute;
-    top: 70px;
-    right: 0;
-    width: 200px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-  }
-  .nav.nav--open {
-    display: flex;
-  }
-  .nav a {
-    margin: 1rem 0;
-  }
-  .btn-primary {
-    margin: 1rem 0 0;
-    width: 100%;
-  }
-
-  /* Make hero content stack vertically */
   .hero-content-wrap {
     flex-direction: column;
   }
-
-  /* Force Services grid to 1 column on smaller screens */
+  /* If screen <768px wide but min-width is 600px for ratio container,
+     it might horizontally overflow. That’s the tradeoff
+     if you truly want “never narrower than 600px.” */
+  .hero-ratio-container {
+    width: 100%;
+    max-width: 800px;
+    min-width: 600px;
+    top: 1rem;
+  }
   .service-grid {
     grid-template-columns: 1fr !important;
-  }
-}
-
-/* Desktop: hide hamburger, show nav horizontally */
-@media (min-width: 769px) {
-  .nav-toggle {
-    display: none;
-  }
-  .nav {
-    display: flex;
-    position: static;
-    box-shadow: none;
-    width: auto;
-    padding: 0;
   }
 }
