@@ -2,24 +2,39 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Agent.Farm Demo</title>
+  <meta name="description" content="Agent.Farm — Farm-Raised AI for Your Business" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Agent.Farm</title>
+  <!-- Link to our external CSS -->
   <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
 </head>
 <body>
+<!-- Header -->
 <header class="header">
   <div class="container header-content">
-    <img src="img/logo.svg" alt="Agent.Farm Logo" class="logo-img" />
-    <nav class="nav">
+    <div class="logo">
+      <!-- Logo Example (replace with your actual logo file) -->
+      <img src="img/logo.svg" alt="Agent.Farm logo" class="logo-img" />
+    </div>
+
+    <!-- Hamburger button (hidden on desktop) -->
+    <button class="nav-toggle" onclick="toggleNav()">☰</button>
+
+    <!-- Navigation links; hidden on mobile until toggle -->
+    <nav class="nav" id="mainNav">
       <a href="#services">Services</a>
       <a href="#cases">Case Studies</a>
       <a href="#contact">Contact</a>
-      <button class="btn-primary">Consult</button>
+      <button class="btn-primary" onclick="scrollToSection('contact')">
+        Schedule a Free Consult
+      </button>
     </nav>
   </div>
 </header>
 
 <!-- Hero Section -->
-<section class="hero">
+<section id="hero" class="hero">
   <div class="container hero-content-wrap">
     <div class="hero-content">
       <h1>Farm-Raised AI for Your Business</h1>
@@ -28,31 +43,29 @@
         terminology, and customers—acting like specialized staff for your
         unique needs.
       </p>
-      <button class="btn-primary">Get Started</button>
+      <button class="btn-primary" onclick="scrollToSection('contact')">
+        Get Started
+      </button>
     </div>
-  </div>
-
-  <!-- The partial-width ratio container behind text -->
-  <div class="hero-ratio-container">
-    <canvas
-      id="farmCanvas"
-      width="384" height="144"
-    ></canvas>
+    <div class="hero-graphic">
+      <img src="img/hero_placeholder.png" alt="Farm-meets-tech graphic" />
+    </div>
   </div>
 </section>
 
-<!-- Example sections for continuity -->
+<!-- Who We Are -->
 <section id="who-we-are" class="who-we-are">
   <div class="container">
     <h2>Who We Are</h2>
     <p>
       We’re seasoned software architects turned AI farmers. Our mission:
       help businesses thrive through custom vertical agents—AI that’s
-      trained on your domain knowledge.
+      trained on your domain knowledge, not generic off-the-shelf models.
     </p>
   </div>
 </section>
 
+<!-- Services / Approach -->
 <section id="services" class="services">
   <div class="container">
     <h2>Our Services & Approach</h2>
@@ -89,26 +102,38 @@
   </div>
 </section>
 
+<!-- Case Studies -->
 <section id="cases" class="cases">
   <div class="container">
     <h2>Our Agents in Action</h2>
     <div class="case-grid">
       <div class="case-item">
         <h3>Hardware Store</h3>
-        <p>Automated stock checks & reorders...</p>
+        <p>
+          Automated stock checks, reorders, and tool advice tailored to
+          the store’s unique terminology and inventory structure.
+        </p>
       </div>
       <div class="case-item">
         <h3>Wine Shop</h3>
-        <p>Predictive restocking & personalized wine suggestions...</p>
+        <p>
+          Predictive restocking and personalized wine recommendations
+          aligned with the shop’s tasting profiles and customer
+          preferences.
+        </p>
       </div>
     </div>
   </div>
 </section>
 
+<!-- Contact / CTA -->
 <section id="contact" class="contact">
   <div class="container">
-    <h2>Ready to Grow Your AI?</h2>
-    <p>Let’s discuss how domain-focused AI agents can transform your business.</p>
+    <h2>Ready to Cultivate Your Own AI?</h2>
+    <p>
+      Let’s discuss how a custom-trained, domain-focused AI agent can
+      transform your business.
+    </p>
     <form class="contact-form">
       <div class="form-group">
         <label for="name">Name</label>
@@ -127,21 +152,14 @@
   </div>
 </section>
 
+<!-- Footer -->
 <footer class="footer">
   <div class="container">
     <p>© Agent.Farm. All Rights Reserved.</p>
   </div>
 </footer>
 
-<!-- Scripts: load animation modules + main.js -->
-<script src="js/animation/sky.js"></script>
-<script src="js/animation/grass.js"></script>
-<script src="js/animation/clouds.js"></script>
-<script src="js/animation/barn.js"></script>
-<script src="js/animation/forest.js"></script>
-<script src="js/animation/staticElements.js"></script>
-<script src="js/animation/vehicles.js"></script>
-<script src="js/animation/birds.js"></script>
-<script src="js/animation/main.js"></script>
+<!-- JavaScript Files -->
+<script src="js/app.js"></script>
 </body>
 </html>
