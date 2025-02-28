@@ -1,11 +1,10 @@
 /* farmExterior.js
  *
- * Main entry point that orchestrates barn, people, environment, and extras in p5 global mode.
+ * 1) Single tap on the barn toggles inside/outside (using touchStarted() for iOS).
+ * 2) If device is in landscape (width > height), we resize canvas to fill windowWidth x windowHeight.
+ *    If portrait, revert to 900×300. We recalc horizon and barn geometry accordingly.
  *
- * Changes from previous versions:
- * 1) Single tap triggers the people toggle instead of double-click.
- * 2) If the browser is landscape (w > h) on window resize, we go full screen.
- *    Otherwise, we revert to 900×300. We recalc horizon and barn geometry so it fits.
+ * NOTE: On iOS Safari, "true" fullscreen typically requires meta tags and/or web-app mode.
  */
 
 import { barn } from "./barn.js";
@@ -25,7 +24,7 @@ function setup() {
   // Initialize environment
   environment.initEnvironment(horizonY, 5, width);
 
-  // Initialize barn geometry
+  // Barn geometry
   initBarnGeometry();
 
   // People start offscreen
@@ -55,7 +54,6 @@ function draw() {
     barn.barnW,
     width
   );
-
   if (wantDoorOpen) barn.openDoor();
   if (allInside || allOutside) barn.closeDoor();
 
@@ -73,10 +71,11 @@ function draw() {
 }
 
 /**
- * SINGLE TAP: if the user taps inside the barn’s rectangle,
- * toggle the people’s inside/outside state.
+ * On iOS Safari, mousePressed() often won't fire reliably
+ * for single taps. So we use touchStarted() for both desktop & mobile:
  */
-function mousePressed() {
+function touchStarted() {
+  // Check if tap inside barn rectangle
   if (
     mouseX >= barn.barnX &&
     mouseX <= barn.barnX + barn.barnW &&
@@ -85,39 +84,36 @@ function mousePressed() {
   ) {
     people.togglePeople();
   }
+  // Returning false tells p5 to prevent default browser behaviors
+  // like double-tap zoom on iOS.
+  return false;
 }
 
 /**
- * When the window size changes (e.g., rotating an iPhone),
- * switch to full-screen in landscape, revert to 900×300 in portrait.
+ * On window resize or orientation change:
+ * - If in landscape (width > height), fill entire window.
+ * - Else revert to 900×300. Then recalc horizon & barn geometry.
  */
 function windowResized() {
   if (windowWidth > windowHeight) {
-    // Landscape => full screen
+    // Landscape => fill screen
     resizeCanvas(windowWidth, windowHeight);
   } else {
-    // Portrait => default size
+    // Portrait => default
     resizeCanvas(DEFAULT_CANVAS_W, DEFAULT_CANVAS_H);
   }
-  // Recompute layout
   computeLayout();
-  // Update environment’s internal size references
   environment.canvasW = width;
   environment.horizonY = horizonY;
-  // Re-init barn geometry so it repositions at the correct spot
   initBarnGeometry();
 }
 
-/**
- * Compute horizonY based on current canvas size.
- */
+/** Recompute horizonY based on current canvas height. */
 function computeLayout() {
   horizonY = height * 0.75;
 }
 
-/**
- * Recompute barn geometry after a resize or on initial setup.
- */
+/** (Re)initialize barn geometry after resizing. */
 function initBarnGeometry() {
   let bW = width * 0.18;
   let bH = bW * 0.6;
@@ -126,8 +122,8 @@ function initBarnGeometry() {
   barn.initBarn(bX, bY, bW, bH);
 }
 
-// Attach global references for p5
+// Attach these functions for p5
 window.setup = setup;
 window.draw = draw;
-window.mousePressed = mousePressed;
+window.touchStarted = touchStarted;
 window.windowResized = windowResized;
