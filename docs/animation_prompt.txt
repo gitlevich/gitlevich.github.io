@@ -1,0 +1,97 @@
+we are making an animation for my site, agent.farm: https://agent.farm.
+the animation should be displayed under the hero section, in a way that still allows people to read text  over it.
+the animation is a real time feed from the imaginary agent farm where we grow our ai agents.
+we look through a stationary camera positioned at eye level 25 meters from the barn in which these agents grow. the barn is dull red, positioned on the right of the frame. the frame's horizon line is 1/4 of the frame width from the bottom.
+the ground features grass, slowly moving in the wind, some trees, a forest in the distance behind the barn. occasionally, in day time, we can see a tractor moving across the field. every now and then, about maybe once an hour, small groups of people come or leave the barn.
+the sky features some clouds slowly moving across it. very slowly. occasionally, birds or planes cross the sky.
+the color of the sky, the lighting conditions everywhere matches the browser's time: if I look at the animation in the morning, the sky looks like morning sky. if at sunset, there is sunset. if at night - its the night sky, with imperceptibly moving stars, possibly clouds.
+i would like to implement this using a framework vs html5 canvas.
+
+we are working on website agent.farm. the farm grows AI agents. there are 2 people working there from 9 to 5. they take an hour lunch at noon.
+the farm is in the field, in a huge red barn.
+we want to show a window with the feed from our farm to see site visitors what goes on there in real time.
+we set up 2 cameras: exterior and interior. we show interior while the people are in, exterior while they are out. we cut between the shots when the people enter or exit the barn.
+exterior is already done.
+interior:
+wide lens shows some floor, up to 1/4th of the frame. the rest is the opposite wall and some ceiling, with wooden rafters, light fixtures, etc. there is a large window on that wall, to its left. we can see a bit of exterior through it: some forest in the distance. the entrance to the barn, a door, is behind us. the furniture is minimal and modern, white, appropriate for a tech startup. there are several large server racks blinking in the corner, cut off in the left side of the frame to show they are long. a couple of desks, a bean bag chair, a kitchen. a white board on a tripod. the two people usually sit at their desks, near each other. one of them sometimes gets up and walks to the other's desk, they both walk to the whiteboard and draw there ai-related things. sometimes one gets up from the desk and walks out of frame. you can improvise the rest.
+just imagine that they work on training ai agents.
+style: cartoon, shapes clearly recognizable, so people do look like people, tables like tables. people walk on the floor, never hover above it.
+please be concise in your answers.
+let's brainstorm this further. the outcome of this conversation is the specification enough to build this animation.
+
+
+# Agent Farm Interior Scene Specification
+
+## Overview & Context
+- The “Agent Farm” is a playful concept of a farm where AI agents are “grown.”
+- The farm has a website, agent.farm. On the site a live feed is displayed of activities on the farm.
+- The farm is situated on a field. It has a large red barn.
+- Two people work inside the barn from **9 AM to 12 PM** and **1 PM to 5 PM**, with a lunch break at **12–1**.
+- A live feed is displayed on the website:
+  - **Interior Camera** when workers are inside (9–12, 1–5).
+  - **Exterior Camera** when the barn is empty (before 9, 12–1, after 5).
+
+## Style
+- **Cartoonish, flat colors**.
+- Each element is **clearly recognizable** (people, desks, server rack, etc.).
+- **No floating objects**; feet/furniture should intersect the floor line appropriately.
+
+## Interior Layout Requirements
+
+1. **Camera View**
+   - About 1/4 of the vertical frame is floor, 3/4 is wall + roof.
+   - The **door** is behind the camera (not visible in the shot).
+   - A **wooden roof band** at the top, occupying ~1/6 of total height, with horizontal plank lines.
+
+2. **Floor & Walls**
+   - Floor is **gray**, walls are **light gray**.
+   - Floor line at roughly 3/4 of the canvas height, leaving some wall space above.
+
+3. **Server Rack**
+   - On the **left**, partially off-frame to imply a larger unit.
+   - Tall, **dark gray**.
+   - Positioned so its bottom edge dips below the floor line (for a mild 3D effect).
+
+4. **Whiteboard**
+   - Near left side, **slightly overlapping the floor line** (again, mild 3D).
+   - Minimal overlap with the server rack.
+
+5. **Desks (Two)**
+   - Centered horizontally, spaced out so two people can stand between them.
+   - Each partially crosses the floor boundary, so the bottom half dips below the floor line.
+   - **Modern, white** surfaces.
+
+6. **Window**
+   - On the **right**, partially off the canvas (some portion extends beyond the right edge).
+   - Shows a bit of **sky (blue)** and a **tree line (green)**.
+
+7. **Beanbag**
+   - **Positioned near the window** on the right.
+   - **Its top crosses the floor/wall boundary**, so part is on the wall portion, part on the floor, for a 3D feel.
+   - Colored in a **red/pink or similar** hue (e.g., `fill(204, 102, 102)`).
+
+8. **Two People**
+   - Each shown as a **rectangle body + circle head**.
+   - Standing in front of the desks with feet **exactly on the floor line** (no hovering).
+   - They can move between desks, whiteboard, and possibly exit frame (in an animated version).
+
+## Actions & Animation (Conceptual)
+- During **work hours**, the two people occasionally get up, walk between the desks and whiteboard.
+- At **12–1** and after **5 PM**, both exit, triggering a cut to the **Exterior Camera**.
+
+## Motivation & Usage
+- This playful scene depicts a “farm” of AI agents being developed.
+- Website visitors see a **cartoon live feed** of interior vs. exterior based on time.
+- Emphasizes the fun, behind-the-scenes look at building AI “in a barn.”
+
+## Final Layout Summary
+1. **Top 1/6**: Wooden roof band with horizontal plank lines.
+2. **Wall**: Light gray, spanning from below the roof down to ~3/4 of frame height.
+3. **Floor**: Gray, covering the bottom 1/4 of the frame.
+4. **Server Rack**: Left edge, tall, partially off-screen, dipping below the floor line.
+5. **Whiteboard**: Left side, near the rack, slightly crossing the floor boundary.
+6. **Desks**: Two in the center, each partially below the floor line.
+7. **Window**: On the right, partially off-screen, showing sky and distant forest.
+8. **Beanbag**: Near the window, with its top crossing the floor boundary.
+9. **Two People**: Cartoon shapes standing in front of each desk, feet on the floor.
+

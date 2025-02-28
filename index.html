@@ -2,39 +2,24 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="description" content="Agent.Farm — Farm-Raised AI for Your Business" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Agent.Farm</title>
-  <!-- Link to our external CSS -->
+  <title>Agent.Farm p5 Demo</title>
   <link rel="stylesheet" href="css/style.css" />
-  <link rel="icon" href="favicon.ico" type="image/x-icon" />
 </head>
 <body>
-<!-- Header -->
 <header class="header">
   <div class="container header-content">
-    <div class="logo">
-      <!-- Logo Example (replace with your actual logo file) -->
-      <img src="img/logo.svg" alt="Agent.Farm logo" class="logo-img" />
-    </div>
-
-    <!-- Hamburger button (hidden on desktop) -->
-    <button class="nav-toggle" onclick="toggleNav()">☰</button>
-
-    <!-- Navigation links; hidden on mobile until toggle -->
-    <nav class="nav" id="mainNav">
+    <img src="img/logo.svg" alt="Agent.Farm Logo" class="logo-img" />
+    <nav class="nav">
       <a href="#services">Services</a>
       <a href="#cases">Case Studies</a>
       <a href="#contact">Contact</a>
-      <button class="btn-primary" onclick="scrollToSection('contact')">
-        Schedule a Free Consult
-      </button>
+      <button class="btn-primary">Consult</button>
     </nav>
   </div>
 </header>
 
 <!-- Hero Section -->
-<section id="hero" class="hero">
+<section class="hero">
   <div class="container hero-content-wrap">
     <div class="hero-content">
       <h1>Farm-Raised AI for Your Business</h1>
@@ -43,10 +28,13 @@
         terminology, and customers—acting like specialized staff for your
         unique needs.
       </p>
-      <button class="btn-primary" onclick="scrollToSection('contact')">
-        Get Started
-      </button>
+      <button class="btn-primary">Get Started</button>
     </div>
+  </div>
+
+  <!-- Partial-width ratio container for the p5 canvas behind hero text -->
+  <div class="hero-ratio-container">
+    <div id="p5-holder"></div>
   </div>
 </section>
 
@@ -57,12 +45,12 @@
     <p>
       We’re seasoned software architects turned AI farmers. Our mission:
       help businesses thrive through custom vertical agents—AI that’s
-      trained on your domain knowledge, not generic off-the-shelf models.
+      trained on your domain knowledge.
     </p>
   </div>
 </section>
 
-<!-- Services / Approach -->
+<!-- Services with four items -->
 <section id="services" class="services">
   <div class="container">
     <h2>Our Services & Approach</h2>
@@ -123,14 +111,22 @@
   </div>
 </section>
 
-<!-- Contact / CTA -->
+<!-- Farm Monitor Section -->
+<section id="farm-monitor" class="farm-monitor">
+  <div class="container">
+    <h2>Live From the Agent Farm</h2>
+    <!-- Container for the p5 canvas -->
+    <div class="farm-monitor-ratio">
+      <div id="p5-farm-holder"></div>
+    </div>
+  </div>
+</section>
+
+<!-- Contact -->
 <section id="contact" class="contact">
   <div class="container">
-    <h2>Ready to Cultivate Your Own AI?</h2>
-    <p>
-      Let’s discuss how a custom-trained, domain-focused AI agent can
-      transform your business.
-    </p>
+    <h2>Ready to Grow Your AI?</h2>
+    <p>Let’s discuss how domain-focused AI agents can transform your business.</p>
     <form class="contact-form">
       <div class="form-group">
         <label for="name">Name</label>
@@ -149,14 +145,16 @@
   </div>
 </section>
 
-<!-- Footer -->
 <footer class="footer">
   <div class="container">
     <p>© Agent.Farm. All Rights Reserved.</p>
   </div>
 </footer>
 
-<!-- JavaScript Files -->
-<script src="js/app.js"></script>
+<!-- p5 library from CDN -->
+<script src="https://cdn.jsdelivr.net/npm/p5@1.5.0/lib/p5.min.js"></script>
+<!-- Our farm animation logic in p5 -->
+<!--<script src="js/animation/farmInterior.js"></script>-->
+<script src="js/animation/farmExterior.js"></script>
 </body>
 </html>
