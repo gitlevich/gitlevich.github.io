@@ -109,7 +109,7 @@ body {
   max-width: 900px;
   margin: 0 auto;
   aspect-ratio: 16 / 9;
-  background: transparent;
+  background: #ccc;
   overflow: hidden;
 }
 #p5-holder {
@@ -259,24 +259,32 @@ body {
 .farm-monitor-ratio {
   width: 100%;
   max-width: 900px;
-  background: transparent;
+  aspect-ratio: 8 / 3;
   margin: 0 auto;
+  background: none;
   position: relative;
   overflow: hidden;
 }
 #p5-farm-holder {
-  position: relative;
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  height: auto;
+  height: 100%;
 }
 
 /* Mobile menu toggle */
 .menu-toggle {
   display: none;
   background: none;
-  border: none;
+  /*border: none;*/
   cursor: pointer;
-  font-size: 1.5rem;
+  padding: 5px 10px;
+  font-size: 1rem;
+  color: #333;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-right: 15px;
 }
 
 /* Responsive Adjustments */
@@ -297,16 +305,9 @@ body {
     gap: 1.5rem;
   }
 
-  /* Keep the content right-aligned */
-  .container {
-    padding-right: 0;
-  }
-
-  .farm-monitor .container {
-    text-align: left;
-  }
-
+  /* Keep the right edge of animation in frame */
   .farm-monitor-ratio {
+    transform-origin: center right;
     margin-right: 0;
   }
 }
@@ -316,6 +317,7 @@ body {
   .header-content {
     position: relative;
     min-height: 60px;
+    padding-right: 10px;
   }
 
   .logo-img {
@@ -333,16 +335,17 @@ body {
 
   /* Hide desktop nav by default */
   .nav {
+    display: none;
     position: absolute;
-    top: 100%;
+    top: 60px;
     left: 0;
     width: 100%;
     flex-direction: column;
     background: #fafafa;
     padding: 1rem 0;
     border-bottom: 1px solid #eee;
-    display: none;
     align-items: center;
+    z-index: 1000;
   }
 
   .nav.active {
