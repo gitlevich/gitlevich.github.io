@@ -1,9 +1,8 @@
 /* farmExterior.js
  *
  * Main entry point in p5 global mode.
- * - Single-tap inside the barn toggles people (without blocking scroll).
- * - If user drags more than ~10px, we assume scrolling and do nothing.
- * - On orientation change: fill screen in landscape, revert to 900×300 in portrait.
+ * - Double-click on the barn toggles people (like the original approach).
+ * - If device is in landscape, fill window; else 900×300.
  */
 
 import { barn } from "./barn.js";
@@ -11,43 +10,36 @@ import { people } from "./people.js";
 import { environment } from "./environment.js";
 import { extras } from "./extras.js";
 
-// Default size for portrait
 const DEFAULT_CANVAS_W = 900;
 const DEFAULT_CANVAS_H = 300;
 
-// We'll store horizon line
 let horizonY = 0;
-
-// We'll store the touch start position
-let startX = 0;
-let startY = 0;
 
 function setup() {
   createCanvas(DEFAULT_CANVAS_W, DEFAULT_CANVAS_H).parent("p5-farm-holder");
-
   computeLayout();
 
-  // Environment
+  // Initialize environment
   environment.initEnvironment(horizonY, 5, width);
 
-  // Barn geometry
+  // Initialize barn geometry
   initBarnGeometry();
 
-  // People start offscreen to the right
+  // People start offscreen
   people.initPeopleOffscreenRight(horizonY, width, barn.barnX, barn.barnW);
 }
 
 function draw() {
-  // 1) Sky and clouds
+  // 1) Environment
   environment.drawSky(this);
   environment.updateAndDrawClouds(this);
-
-  // 2) Ground and trees
   environment.drawGround(this);
   environment.drawTreesAndForest(this, barn.barnX);
 
-  // 3) Barn
+  // 2) Barn interior glow
   barn.drawInteriorGlow(this);
+
+  // 3) Door updates & drawing
   barn.updateDoor();
   barn.drawDoor(this);
   barn.drawBarnFacadeCutout(this);
@@ -68,7 +60,6 @@ function draw() {
     barn.closeDoor();
   }
 
-  // Draw people
   people.draw(this);
 
   // 5) Extras
@@ -83,40 +74,23 @@ function draw() {
 }
 
 /**
- * touchStarted() only stores initial finger coords.
- * We do NOT return false, so user can scroll if they drag.
+ * Double-click on the barn => toggle people inside/outside.
  */
-function touchStarted() {
-  startX = mouseX;
-  startY = mouseY;
-}
-
-/**
- * touchEnded():
- * If the user’s finger traveled < 10px, we treat it as a tap.
- * Otherwise, assume it was a scroll.
- */
-function touchEnded() {
-  let distanceMoved = dist(mouseX, mouseY, startX, startY);
-
-  // If user didn’t move far => “tap”
-  if (distanceMoved < 10) {
-    // Check if tap is inside the barn bounding box
-    if (
-      mouseX >= barn.barnX &&
-      mouseX <= barn.barnX + barn.barnW &&
-      mouseY >= barn.barnY &&
-      mouseY <= barn.barnY + barn.barnH
-    ) {
-      people.togglePeople();
-    }
+function doubleClicked() {
+  if (
+    mouseX >= barn.barnX &&
+    mouseX <= barn.barnX + barn.barnW &&
+    mouseY >= barn.barnY &&
+    mouseY <= barn.barnY + barn.barnH
+  ) {
+    people.togglePeople();
   }
 }
 
 /**
- * When device orientation changes or window is resized:
- * - If landscape => fill window
- * - If portrait => revert to 900x300
+ * When the window size changes (rotation, etc.):
+ * - If landscape => fill entire window
+ * - If portrait => revert to 900×300
  */
 function windowResized() {
   if (windowWidth > windowHeight) {
@@ -144,9 +118,8 @@ function initBarnGeometry() {
   barn.initBarn(bX, bY, bW, bH);
 }
 
-// Attach to p5 in global mode
+// Expose for p5 in global mode
 window.setup = setup;
 window.draw = draw;
-window.touchStarted = touchStarted;
-window.touchEnded = touchEnded;
+window.doubleClicked = doubleClicked;
 window.windowResized = windowResized;
