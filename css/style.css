@@ -27,7 +27,7 @@ body {
   z-index: 1000;
 }
 .container {
-  max-width: 800px;
+  max-width: 900px;
   margin: 0 auto;
   padding: 0 1rem;
 }
@@ -106,10 +106,10 @@ body {
 .hero-ratio-container {
   position: relative;
   width: 100%;
-  max-width: 1200px;
+  max-width: 900px;
   margin: 0 auto;
-  aspect-ratio: 16 / 9; /* Adjust as you like */
-  background: #ccc;
+  aspect-ratio: 16 / 9;
+  background: transparent;
   overflow: hidden;
 }
 #p5-holder {
@@ -148,12 +148,12 @@ body {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 2rem;
-  max-width: 1000px;
+  max-width: 900px;
   margin: 0 auto;
 }
 .service-item {
   background: #fafafa;
-  border-radius: 6px;
+  border-radius: 0;
   padding: 1.5rem;
   text-align: left;
   border: 1px solid #eee;
@@ -178,13 +178,13 @@ body {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 2rem;
-  max-width: 1000px;
+  max-width: 900px;
   margin: 0 auto;
 }
 .case-item {
   background: #fff;
   border: 1px solid #eee;
-  border-radius: 6px;
+  border-radius: 0;
   padding: 1.5rem;
   text-align: left;
 }
@@ -211,6 +211,7 @@ body {
   max-width: 600px;
   margin: 0 auto;
   text-align: left;
+  border-radius: 0;
 }
 .form-group {
   margin-bottom: 1rem;
@@ -258,18 +259,24 @@ body {
 .farm-monitor-ratio {
   width: 100%;
   max-width: 900px;
-  aspect-ratio: 8 / 3;
+  background: transparent;
   margin: 0 auto;
-  background: #ccc;
   position: relative;
   overflow: hidden;
 }
 #p5-farm-holder {
-  position: absolute;
-  top: 0;
-  left: 0;
+  position: relative;
   width: 100%;
-  height: 100%;
+  height: auto;
+}
+
+/* Mobile menu toggle */
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.5rem;
 }
 
 /* Responsive Adjustments */
@@ -281,21 +288,73 @@ body {
 
   /* Make service-grid and case-grid single-column */
   .service-grid {
-    grid-template-columns: 1fr !important;
-  }
-  .case-grid {
-    grid-template-columns: 1fr !important;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
   }
 
-  /* Adjust heading/font sizes slightly */
-  .hero-content h1 {
-    font-size: 1.6rem;
+  .case-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
   }
-  .nav a {
-    margin: 0 0.5rem;
-    font-size: 1rem;
+
+  /* Keep the content right-aligned */
+  .container {
+    padding-right: 0;
   }
+
+  .farm-monitor .container {
+    text-align: left;
+  }
+
+  .farm-monitor-ratio {
+    margin-right: 0;
+  }
+}
+
+@media (max-width: 600px) {
+  /* Header/Nav adjustments */
+  .header-content {
+    position: relative;
+    min-height: 60px;
+  }
+
   .logo-img {
     width: 80px;
+  }
+
+  /* Show mobile menu toggle */
+  .menu-toggle {
+    display: block;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  /* Hide desktop nav by default */
+  .nav {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    flex-direction: column;
+    background: #fafafa;
+    padding: 1rem 0;
+    border-bottom: 1px solid #eee;
+    display: none;
+    align-items: center;
+  }
+
+  .nav.active {
+    display: flex;
+  }
+
+  .nav a {
+    margin: 0.5rem 0;
+    font-size: 1rem;
+  }
+
+  .nav .btn-primary {
+    margin-top: 0.5rem;
   }
 }
