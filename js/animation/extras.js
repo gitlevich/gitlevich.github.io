@@ -1,45 +1,25 @@
-/*
-  extras.js
-
-  Manages:
-    - Tractors (random spawn, color, direction)
-    - Birds (random spawn, day/night color, flapping)
-    - Timecode overlay
-
-  Usage in the main code:
-    1) extras.initExtras(...) if needed (e.g., for spawn rates).
-    2) Each frame:
-       extras.maybeSpawnTractor();
-       extras.updateAndDrawTractors(p5, horizonY);
-       extras.maybeSpawnBird();
-       extras.updateAndDrawBirds(p5);
-       extras.displayTimecode(p5);
-
-  No references to barn or people.
-*/
-
 export const extras = {
   tractors: [],
   birds: [],
 
-  // We might keep some spawn counters or rates here if we want
-  tractorSpawnRate: 0.0002, // ~1 in 5000 => ~83s at 60fps
+  // Slow them down by half
+  TRACTOR_SPEED_FACTOR: 0.5,
+
+  tractorSpawnRate: 0.0002, // Rare by default
   birdSpawnDay: 0.001,
   birdSpawnNight: 0.0001,
-
-  // --- TRACTORS ---
 
   maybeSpawnTractor(p5) {
     if (p5.random(1) < this.tractorSpawnRate) {
       let direction = p5.random(1) < 0.5 ? -1 : 1;
       let startX = (direction === 1) ? -100 : p5.width + 80;
-      let speed = p5.random(1, 3);
+      let baseSpeed = p5.random(1, 3) * this.TRACTOR_SPEED_FACTOR;
       let c = this.randomNonGreenColor(p5);
 
       this.tractors.push({
         x: startX,
         dir: direction,
-        speed,
+        speed: baseSpeed,
         color: c,
       });
     }
@@ -50,27 +30,66 @@ export const extras = {
       let t = this.tractors[i];
       t.x += t.dir * t.speed;
 
-      if ((t.dir === -1 && t.x < -150) ||
-        (t.dir === 1 && t.x > p5.width + 150)) {
+      // Remove if it has gone far offscreen
+      if ((t.dir === -1 && t.x < -200) ||
+        (t.dir === 1 && t.x > p5.width + 200)) {
         this.tractors.splice(i, 1);
         continue;
       }
 
+      // Place the tractor so y=0 in local coords is at horizonY
       p5.push();
-      p5.translate(t.x, horizonY - 10);
+      p5.translate(t.x, horizonY);
+      // Flip horizontally if driving left
+      if (t.dir < 0) {
+        p5.scale(-1, 1);
+      }
       this.drawTractor(p5, t);
       p5.pop();
     }
   },
 
+  /**
+   * Draws a more “cartoon” tractor with both wheels on y=0 (the ground).
+   * Local coords:
+   *   - The REAR (big) wheel’s center is at (0, -16) => radius=16 => bottom at y=0.
+   *   - The FRONT (small) wheel’s center is at (40, -10) => radius=10 => bottom at y=0.
+   */
   drawTractor(p5, t) {
     p5.noStroke();
-    p5.fill(t.color);
-    p5.rect(0, -15, 35, 15);   // body
-    p5.rect(10, -25, 15, 10);  // cab
+    const rearWheelR = 16;
+    const frontWheelR = 10;
+
+    // Big rear wheel at (0, -16)
     p5.fill(0);
-    p5.ellipse(8, 0, 12, 12);  // front wheel
-    p5.ellipse(28, 0, 16, 16); // rear wheel
+    p5.ellipse(0, -rearWheelR, rearWheelR * 2, rearWheelR * 2);
+
+    // Small front wheel at (40, -10)
+    p5.ellipse(40, -frontWheelR, frontWheelR * 2, frontWheelR * 2);
+
+    // Tractor body color
+    p5.fill(t.color);
+
+    // Chassis bridging the wheels
+    // Let’s run a rectangle from x=0..x=40, slightly above the wheels.
+    let chassisY = -frontWheelR - 8; // about 8 px above the smaller wheel center
+    p5.rect(0, chassisY, 40, 8);
+
+    // Hood: a small sloped area at the front
+    p5.quad(
+      0, chassisY,           // left-lower
+      0, chassisY - 10,      // left-upper
+      15, chassisY - 10,     // right-upper
+      15, chassisY           // right-lower
+    );
+
+    // Cab behind hood
+    // Place it from x=15..x=30, some height
+    p5.rect(15, chassisY - 12, 15, 12);
+
+    // Smokestack on top
+    p5.fill(50);
+    p5.rect(5, chassisY - 14, 3, 6);
   },
 
   randomNonGreenColor(p5) {
@@ -86,8 +105,7 @@ export const extras = {
     return col;
   },
 
-  // --- BIRDS ---
-
+  // ---------------- BIRDS ----------------
   maybeSpawnBird(p5) {
     let hr = p5.hour();
     let spawnChance = this.birdSpawnDay;
@@ -96,12 +114,12 @@ export const extras = {
     }
 
     if (p5.random(1) < spawnChance) {
-      let dir = (p5.random(1) < 0.5) ? -1 : 1;
+      let dir = p5.random(1) < 0.5 ? -1 : 1;
       let startX = (dir > 0) ? -20 : p5.width + 20;
 
       this.birds.push({
         x: startX,
-        y: p5.random(p5.height * 0.4), // upper portion
+        y: p5.random(p5.height * 0.4),
         vx: p5.random(0.5, 1.2),
         dir,
         size: p5.random(6, 10),
@@ -114,9 +132,7 @@ export const extras = {
     for (let i = this.birds.length - 1; i >= 0; i--) {
       let b = this.birds[i];
       b.x += b.dir * b.vx;
-
       this.drawFlappingBird(p5, b);
-
       // remove if offscreen
       if (b.x < -50 || b.x > p5.width + 50) {
         this.birds.splice(i, 1);
@@ -129,7 +145,6 @@ export const extras = {
     p5.translate(bird.x, bird.y);
     p5.noStroke();
 
-    // day vs night color
     let hr = p5.hour();
     let cDay = p5.color(80);
     let cNight = p5.color(200);
@@ -173,8 +188,7 @@ export const extras = {
     p5.pop();
   },
 
-  // --- TIMECODE OVERLAY ---
-
+  // ---------------- TIMECODE ----------------
   displayTimecode(p5) {
     let now = new Date();
     let h = now.getHours();
