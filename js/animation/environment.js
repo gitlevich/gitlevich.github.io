@@ -3,31 +3,13 @@
 
   Manages:
     - Sky (time-based color, optional stars)
-    - Clouds (spawn, drift) — with more realistic vertical distribution
-    - Ground (green area + an optional grass wave)
+    - Clouds (spawn, drift)
+    - Ground (green area + optional grass wave)
     - Trees / forest strip
 
-  Usage:
-    1) environment.initEnvironment(horizon, initialOnscreenClouds, canvasWidth)
-       to set up the sky and restore or spawn clouds.
-    2) Each frame:
-       environment.drawSky(p5);
-       environment.updateAndDrawClouds(p5);
-       environment.drawGround(p5);
-       environment.drawTreesAndForest(p5, barnX);
-    3) SHIFT+R => calls resetClouds() AND immediately respawns clouds,
-       so you don’t end up with an empty sky.
-    4) If you want to clear all clouds (and nuke persistence) programmatically:
-       environment.resetClouds();
-       // Next time you init or reload, it won’t load any from storage.
-
-  -- PERSISTENCE & VERTICAL DISTRIBUTION --
-  * We store/reload clouds from localStorage so their positions survive reloads.
-  * If no saved data, we spawn multiple clouds that start ON screen
-    distributed from top to near horizon (here, top 80% of the sky).
-  * SHIFT+R triggers resetClouds() and spawns new clouds.
-
-  This file does NOT import barn or people.
+  This version:
+    1) Removes the old SHIFT+R logic.
+    2) Adds a "p" key listener that resets clouds and spawns new ones.
 */
 
 export const environment = {
@@ -37,7 +19,6 @@ export const environment = {
   grassOffset: 0.001,
   cloudSpawnCounter: 0,
 
-  // Controls how far down clouds appear (fraction of horizonY).
   CLOUD_VERTICAL_FRACTION: 0.8,
 
   loadClouds() {
@@ -78,7 +59,6 @@ export const environment = {
    * Called once at setup with your horizon line, etc.
    * If saved data is found (and not empty), we restore it.
    * Otherwise, we spawn multiple on-screen clouds at random positions.
-   * SHIFT+R => calls resetClouds() and immediately spawns new clouds.
    */
   initEnvironment(horizon, initialOnscreenClouds = 7, canvasWidth = 900) {
     this.horizonY = horizon;
@@ -95,9 +75,9 @@ export const environment = {
       this.saveClouds();
     });
 
-    // SHIFT+R => reset clouds + spawn new ones
+    // --- NEW: Press 'p' to reset & respawn clouds ---
     window.addEventListener("keydown", (event) => {
-      if (event.key === "R" && event.shiftKey) {
+      if (event.key.toLowerCase() === "p") {
         this.resetClouds();
         for (let i = 0; i < initialOnscreenClouds; i++) {
           this.spawnCloudOnScreen();
