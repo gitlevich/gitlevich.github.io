@@ -1,10 +1,11 @@
 /* farmExterior.js
  *
- * - People start offscreen on the right (fully outside).
- * - Double-click barn => toggles whether they move inside or outside.
- * - They approach the door from their side; once someone hits the sensor zone, the door opens.
- * - After the door is fully open, they cross into their final zone (inside = just behind door, outside = offscreen).
- * - The door closes once they're all fully in or out.
+ * Main entry point that orchestrates barn, people, environment, and extras in p5 global mode.
+ *
+ * Changes from previous versions:
+ * 1) Single tap triggers the people toggle instead of double-click.
+ * 2) If the browser is landscape (w > h) on window resize, we go full screen.
+ *    Otherwise, we revert to 900×300. We recalc horizon and barn geometry so it fits.
  */
 
 import { barn } from "./barn.js";
@@ -12,26 +13,23 @@ import { people } from "./people.js";
 import { environment } from "./environment.js";
 import { extras } from "./extras.js";
 
-const CANVAS_W = 900;
-const CANVAS_H = 300;
+const DEFAULT_CANVAS_W = 900;
+const DEFAULT_CANVAS_H = 300;
+
 let horizonY = 0;
 
 function setup() {
-  createCanvas(CANVAS_W, CANVAS_H).parent("p5-farm-holder");
-  horizonY = height * 0.75;
+  createCanvas(DEFAULT_CANVAS_W, DEFAULT_CANVAS_H).parent("p5-farm-holder");
+  computeLayout();
 
-  // Environment
-  environment.initEnvironment(horizonY, 5, CANVAS_W);
+  // Initialize environment
+  environment.initEnvironment(horizonY, 5, width);
 
-  // Barn near the right
-  const bW = width * 0.18;
-  const bH = bW * 0.6;
-  const bX = width * 0.65;
-  const bY = horizonY - bH;
-  barn.initBarn(bX, bY, bW, bH);
+  // Initialize barn geometry
+  initBarnGeometry();
 
-  // People start fully outside
-  people.initPeopleOffscreenRight(horizonY, width, bX, bW);
+  // People start offscreen
+  people.initPeopleOffscreenRight(horizonY, width, barn.barnX, barn.barnW);
 }
 
 function draw() {
@@ -44,14 +42,14 @@ function draw() {
   // 2) Barn interior glow
   barn.drawInteriorGlow(this);
 
-  // 3) Door mechanics
+  // 3) Door
   barn.updateDoor();
   barn.drawDoor(this);
   barn.drawBarnFacadeCutout(this);
 
   // 4) People logic
-  const barnIsOpen = (barn.doorStage === "open");
-  const { wantDoorOpen, allInside, allOutside } = people.update(
+  let barnIsOpen = (barn.doorStage === "open");
+  let { wantDoorOpen, allInside, allOutside } = people.update(
     barnIsOpen,
     barn.barnX,
     barn.barnW,
@@ -61,7 +59,6 @@ function draw() {
   if (wantDoorOpen) barn.openDoor();
   if (allInside || allOutside) barn.closeDoor();
 
-  // Draw people
   people.draw(this);
 
   // 5) Extras
@@ -71,11 +68,15 @@ function draw() {
   extras.updateAndDrawBirds(this);
   extras.displayTimecode(this);
 
+  // Grass wave offset
   environment.grassOffset += 0.001;
 }
 
-/** Double-click barn => toggle whether people are inside or outside. */
-function doubleClicked() {
+/**
+ * SINGLE TAP: if the user taps inside the barn’s rectangle,
+ * toggle the people’s inside/outside state.
+ */
+function mousePressed() {
   if (
     mouseX >= barn.barnX &&
     mouseX <= barn.barnX + barn.barnW &&
@@ -86,6 +87,47 @@ function doubleClicked() {
   }
 }
 
+/**
+ * When the window size changes (e.g., rotating an iPhone),
+ * switch to full-screen in landscape, revert to 900×300 in portrait.
+ */
+function windowResized() {
+  if (windowWidth > windowHeight) {
+    // Landscape => full screen
+    resizeCanvas(windowWidth, windowHeight);
+  } else {
+    // Portrait => default size
+    resizeCanvas(DEFAULT_CANVAS_W, DEFAULT_CANVAS_H);
+  }
+  // Recompute layout
+  computeLayout();
+  // Update environment’s internal size references
+  environment.canvasW = width;
+  environment.horizonY = horizonY;
+  // Re-init barn geometry so it repositions at the correct spot
+  initBarnGeometry();
+}
+
+/**
+ * Compute horizonY based on current canvas size.
+ */
+function computeLayout() {
+  horizonY = height * 0.75;
+}
+
+/**
+ * Recompute barn geometry after a resize or on initial setup.
+ */
+function initBarnGeometry() {
+  let bW = width * 0.18;
+  let bH = bW * 0.6;
+  let bX = width * 0.65;
+  let bY = horizonY - bH;
+  barn.initBarn(bX, bY, bW, bH);
+}
+
+// Attach global references for p5
 window.setup = setup;
 window.draw = draw;
-window.doubleClicked = doubleClicked;
+window.mousePressed = mousePressed;
+window.windowResized = windowResized;
