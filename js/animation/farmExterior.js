@@ -87,23 +87,6 @@ function doubleClicked() {
   }
 }
 
-/**
- * When the window size changes (rotation, etc.):
- * - If landscape => fill entire window
- * - If portrait => revert to 900×300
- */
-function windowResized() {
-  if (windowWidth > windowHeight) {
-    resizeCanvas(windowWidth, windowHeight);
-  } else {
-    resizeCanvas(DEFAULT_CANVAS_W, DEFAULT_CANVAS_H);
-  }
-  computeLayout();
-  environment.canvasW = width;
-  environment.horizonY = horizonY;
-  initBarnGeometry();
-}
-
 /** Calculate horizon line for the current canvas size. */
 function computeLayout() {
   horizonY = height * 0.75;
