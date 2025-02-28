@@ -360,4 +360,8 @@ body {
   .nav .btn-primary {
     margin-top: 0.5rem;
   }
+
+  .hide-on-mobile {
+    display: none !important;
+  }
 }
