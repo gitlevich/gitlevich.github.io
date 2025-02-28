@@ -102,6 +102,24 @@ body {
   font-size: 1.1rem;
 }
 
+/* Hero ratio container (so p5 scales responsively) */
+.hero-ratio-container {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  aspect-ratio: 16 / 9; /* Adjust as you like */
+  background: #ccc;
+  overflow: hidden;
+}
+#p5-holder {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
 /* Who We Are */
 .who-we-are {
   padding: 3rem 1rem;
@@ -223,34 +241,20 @@ body {
   color: #666;
 }
 
-/* Responsive Adjustments */
-@media (max-width: 768px) {
-  .hero-content-wrap {
-    flex-direction: column;
-  }
-  .service-grid {
-    grid-template-columns: 1fr !important;
-  }
-}
-
 /* Farm Monitor Section */
 .farm-monitor {
   padding: 3rem 1rem;
   text-align: center;
 }
-
 .farm-monitor h2 {
   font-size: 1.75rem;
   margin-bottom: 1rem;
 }
-
 .farm-monitor p {
   max-width: 600px;
   margin: 0 auto 2rem;
   line-height: 1.4;
 }
-
-/* For a dynamic aspect ratio container that p5 will fill at runtime */
 .farm-monitor-ratio {
   width: 100%;
   max-width: 900px;
@@ -260,11 +264,38 @@ body {
   position: relative;
   overflow: hidden;
 }
-
 #p5-farm-holder {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  /* Stack hero content vertically */
+  .hero-content-wrap {
+    flex-direction: column;
+  }
+
+  /* Make service-grid and case-grid single-column */
+  .service-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .case-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Adjust heading/font sizes slightly */
+  .hero-content h1 {
+    font-size: 1.6rem;
+  }
+  .nav a {
+    margin: 0 0.5rem;
+    font-size: 1rem;
+  }
+  .logo-img {
+    width: 80px;
+  }
 }

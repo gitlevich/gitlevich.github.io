@@ -32,10 +32,6 @@
     </div>
   </div>
 
-  <!-- Partial-width ratio container for the p5 canvas behind hero text -->
-  <div class="hero-ratio-container">
-    <div id="p5-holder"></div>
-  </div>
 </section>
 
 <!-- Who We Are -->
@@ -153,8 +149,9 @@
 
 <!-- p5 library from CDN -->
 <script src="https://cdn.jsdelivr.net/npm/p5@1.5.0/lib/p5.min.js"></script>
-<!-- Our farm animation logic in p5 -->
-<!--<script src="js/animation/farmInterior.js"></script>-->
-<script src="js/animation/farmExterior.js"></script>
+
+<!-- Our farm animation logic in p5 (with ES modules) -->
+<script type="module" src="js/animation/farmExterior.js"></script>
+
 </body>
 </html>
