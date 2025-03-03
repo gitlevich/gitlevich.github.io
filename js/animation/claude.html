@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Agent Farm</title>
+  <style>
+    body { margin: 0; overflow: hidden; }
+    canvas { display: block; }
+  </style>
+</head>
+<body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+<script>
+  // Main Three.js setup
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+  const renderer = new THREE.WebGLRenderer({ antialias: true });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  document.body.appendChild(renderer.domElement);
+
+  // Set camera position
+  camera.position.set(0, 5, 20);
+  camera.lookAt(0, 0, 0);
+
+  // Add lights
+  const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+  scene.add(ambientLight);
+
+  const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+  directionalLight.position.set(5, 10, 7);
+  scene.add(directionalLight);
+
+  // Sky setup
+  const skyGeometry = new THREE.SphereGeometry(500, 32, 32);
+  // Invert the geometry so that the texture shows on the inside
+  skyGeometry.scale(-1, 1, 1);
+  const skyMaterial = new THREE.MeshBasicMaterial({
+    color: 0x87CEEB // Starting with light blue
+  });
+  const sky = new THREE.Mesh(skyGeometry, skyMaterial);
+  scene.add(sky);
+
+  // Ground setup
+  const groundGeometry = new THREE.PlaneGeometry(100, 100);
+  const groundMaterial = new THREE.MeshLambertMaterial({ color: 0x7CFC00 });
+  const ground = new THREE.Mesh(groundGeometry, groundMaterial);
+  ground.rotation.x = -Math.PI / 2;
+  ground.position.y = -0.5;
+  scene.add(ground);
+
+  // Barn setup
+  const barnGroup = new THREE.Group();
+  scene.add(barnGroup);
+
+  // Barn body
+  const barnBodyGeometry = new THREE.BoxGeometry(8, 6, 10);
+  const barnMaterial = new THREE.MeshLambertMaterial({ color: 0xA52A2A });
+  const barnBody = new THREE.Mesh(barnBodyGeometry, barnMaterial);
+  barnBody.position.y = 3;
+  barnGroup.add(barnBody);
+
+  // Barn roof
+  const roofGeometry = new THREE.ConeGeometry(7, 4, 4);
+  const roofMaterial = new THREE.MeshLambertMaterial({ color: 0x8B4513 });
+  const roof = new THREE.Mesh(roofGeometry, roofMaterial);
+  roof.position.y = 8;
+  roof.rotation.y = Math.PI / 4;
+  barnGroup.add(roof);
+
+  // Add doors
+  const doorGeometry = new THREE.PlaneGeometry(2, 3);
+  const doorMaterial = new THREE.MeshLambertMaterial({ color: 0x8B4513, side: THREE.DoubleSide });
+  const door = new THREE.Mesh(doorGeometry, doorMaterial);
+  door.position.set(0, 1.5, 5.01);
+  barnGroup.add(door);
+
+  // Create clouds
+  const clouds = [];
+  function createCloud(x, y, z) {
+    const cloudGroup = new THREE.Group();
+    const cloudMaterial = new THREE.MeshLambertMaterial({ color: 0xFFFFFF });
+
+    // Create several spheres to form a cloud
+    for (let i = 0; i < 5; i++) {
+      const radius = 1 + Math.random() * 0.5;
+      const cloudPieceGeometry = new THREE.SphereGeometry(radius, 8, 8);
+      const cloudPiece = new THREE.Mesh(cloudPieceGeometry, cloudMaterial);
+      cloudPiece.position.set(
+        i * 1.1 - 2,
+        Math.random() * 0.5,
+        Math.random() * 0.5
+      );
+      cloudGroup.add(cloudPiece);
+    }
+
+    cloudGroup.position.set(x, y, z);
+    scene.add(cloudGroup);
+    clouds.push({
+      mesh: cloudGroup,
+      speed: 0.01 + Math.random() * 0.02
+    });
+  }
+
+  // Create several clouds
+  for (let i = 0; i < 10; i++) {
+    createCloud(
+      Math.random() * 100 - 50,
+      10 + Math.random() * 10,
+      Math.random() * 50 - 25
+    );
+  }
+
+  // Create birds
+  const birds = [];
+  function createBird(x, y, z) {
+    const birdGroup = new THREE.Group();
+
+    // Bird body
+    const bodyGeometry = new THREE.ConeGeometry(0.2, 0.8, 8);
+    const bodyMaterial = new THREE.MeshLambertMaterial({ color: 0x333333 });
+    const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
+    body.rotation.x = Math.PI / 2;
+    birdGroup.add(body);
+
+    // Wings
+    const wingGeometry = new THREE.PlaneGeometry(0.8, 0.3);
+    const wingMaterial = new THREE.MeshLambertMaterial({
+      color: 0x666666,
+      side: THREE.DoubleSide
+    });
+
+    const leftWing = new THREE.Mesh(wingGeometry, wingMaterial);
+    leftWing.position.set(-0.4, 0, 0);
+    birdGroup.add(leftWing);
+
+    const rightWing = new THREE.Mesh(wingGeometry, wingMaterial);
+    rightWing.position.set(0.4, 0, 0);
+    birdGroup.add(rightWing);
+
+    birdGroup.position.set(x, y, z);
+    scene.add(birdGroup);
+
+    birds.push({
+      mesh: birdGroup,
+      wings: { left: leftWing, right: rightWing },
+      speed: 0.05 + Math.random() * 0.05,
+      direction: new THREE.Vector3(
+        Math.random() * 2 - 1,
+        Math.random() * 0.2 - 0.1,
+        Math.random() * 2 - 1
+      ).normalize(),
+      flapSpeed: 0.1 + Math.random() * 0.1,
+      flapDirection: 1,
+      flapPosition: 0
+    });
+  }
+
+  // Create several birds
+  for (let i = 0; i < 8; i++) {
+    createBird(
+      Math.random() * 30 - 15,
+      5 + Math.random() * 10,
+      Math.random() * 30 - 15
+    );
+  }
+
+  // Human figures (simplified)
+  const humans = [];
+  function createHuman(x, y, z) {
+    const humanGroup = new THREE.Group();
+
+    // Body
+    const bodyGeometry = new THREE.CylinderGeometry(0.25, 0.25, 1.5, 8);
+    const bodyMaterial = new THREE.MeshLambertMaterial({
+      color: Math.random() > 0.5 ? 0x3366CC : 0xCC6633
+    });
+    const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
+    body.position.y = 0.75;
+    humanGroup.add(body);
+
+    // Head
+    const headGeometry = new THREE.SphereGeometry(0.25, 8, 8);
+    const headMaterial = new THREE.MeshLambertMaterial({ color: 0xFFD700 });
+    const head = new THREE.Mesh(headGeometry, headMaterial);
+    head.position.y = 1.75;
+    humanGroup.add(head);
+
+    humanGroup.position.set(x, y, z);
+    scene.add(humanGroup);
+
+    humans.push({
+      mesh: humanGroup,
+      targetX: Math.random() * 20 - 10,
+      targetZ: Math.random() * 20 - 10,
+      speed: 0.01 + Math.random() * 0.01,
+      waitTime: 0,
+      state: 'moving' // 'moving' or 'waiting'
+    });
+  }
+
+  // Create several humans
+  for (let i = 0; i < 5; i++) {
+    createHuman(
+      Math.random() * 20 - 10,
+      0,
+      Math.random() * 20 - 10
+    );
+  }
+
+  // Time and sky handling
+  let currentTime = new Date();
+  function updateSkyColor() {
+    currentTime = new Date();
+    const hours = currentTime.getHours();
+    const minutes = currentTime.getMinutes();
+    const time = hours + minutes / 60;
+
+    // Map the time to colors
+    let skyColor;
+
+    if (time >= 6 && time < 8) {
+      // Dawn: transition from dark blue to light orange
+      const t = (time - 6) / 2;
+      skyColor = new THREE.Color(0x1A2B3C).lerp(new THREE.Color(0xFFA500), t);
+    } else if (time >= 8 && time < 16) {
+      // Day: light blue
+      skyColor = new THREE.Color(0x87CEEB);
+    } else if (time >= 16 && time < 19) {
+      // Sunset: transition from light blue to orange to dark blue
+      const t = (time - 16) / 3;
+      if (t < 0.5) {
+        skyColor = new THREE.Color(0x87CEEB).lerp(new THREE.Color(0xFF4500), t * 2);
+      } else {
+        skyColor = new THREE.Color(0xFF4500).lerp(new THREE.Color(0x1A2B3C), (t - 0.5) * 2);
+      }
+    } else {
+      // Night: dark blue
+      skyColor = new THREE.Color(0x1A2B3C);
+    }
+
+    // Update sky material
+    skyMaterial.color = skyColor;
+
+    // Update lighting
+    if (time >= 6 && time < 19) {
+      // Daytime
+      const intensity = time >= 8 && time < 16 ? 0.8 : 0.4;
+      directionalLight.intensity = intensity;
+      ambientLight.intensity = intensity / 2;
+    } else {
+      // Nighttime
+      directionalLight.intensity = 0.1;
+      ambientLight.intensity = 0.2;
+    }
+  }
+
+  // Animation loop
+  function animate() {
+    requestAnimationFrame(animate);
+
+    // Update sky color based on local time
+    updateSkyColor();
+
+    // Animate clouds
+    clouds.forEach(cloud => {
+      cloud.mesh.position.x += cloud.speed;
+      if (cloud.mesh.position.x > 50) {
+        cloud.mesh.position.x = -50;
+      }
+    });
+
+    // Animate birds
+    birds.forEach(bird => {
+      // Move bird
+      bird.mesh.position.x += bird.direction.x * bird.speed;
+      bird.mesh.position.y += bird.direction.y * bird.speed;
+      bird.mesh.position.z += bird.direction.z * bird.speed;
+
+      // Rotate to face direction
+      bird.mesh.rotation.y = Math.atan2(
+        bird.direction.x,
+        bird.direction.z
+      );
+
+      // Flap wings
+      bird.flapPosition += bird.flapSpeed * bird.flapDirection;
+      if (bird.flapPosition > 0.5 || bird.flapPosition < -0.1) {
+        bird.flapDirection *= -1;
+      }
+
+      bird.wings.left.rotation.z = bird.flapPosition;
+      bird.wings.right.rotation.z = -bird.flapPosition;
+
+      // Check boundaries and change direction
+      if (
+        Math.abs(bird.mesh.position.x) > 40 ||
+        bird.mesh.position.y < 3 || bird.mesh.position.y > 30 ||
+        Math.abs(bird.mesh.position.z) > 40 ||
+        Math.random() < 0.005
+      ) {
+        bird.direction = new THREE.Vector3(
+          Math.random() * 2 - 1,
+          Math.random() * 0.2 - 0.1,
+          Math.random() * 2 - 1
+        ).normalize();
+      }
+    });
+
+    // Animate humans
+    humans.forEach(human => {
+      if (human.state === 'moving') {
+        // Calculate direction to target
+        const dx = human.targetX - human.mesh.position.x;
+        const dz = human.targetZ - human.mesh.position.z;
+        const distance = Math.sqrt(dx * dx + dz * dz);
+
+        // Move human
+        if (distance > 0.1) {
+          human.mesh.position.x += (dx / distance) * human.speed;
+          human.mesh.position.z += (dz / distance) * human.speed;
+
+          // Rotate to face direction
+          human.mesh.rotation.y = Math.atan2(dx, dz);
+        } else {
+          // Reached target, start waiting
+          human.state = 'waiting';
+          human.waitTime = 100 + Math.random() * 200;
+        }
+      } else {
+        // Waiting
+        human.waitTime--;
+        if (human.waitTime <= 0) {
+          // Done waiting, set new target
+          human.targetX = Math.random() * 20 - 10;
+          human.targetZ = Math.random() * 20 - 10;
+          human.state = 'moving';
+        }
+      }
+    });
+
+    renderer.render(scene, camera);
+  }
+
+  // Handle window resize
+  window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  });
+
+  // Start animation
+  animate();
+</script>
+</body>
+</html>
