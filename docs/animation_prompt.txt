@@ -1,33 +1,23 @@
 we are making an animation for my site, agent.farm: https://agent.farm.
+the animation should be displayed under the hero section, in a way that still allows people to read text  over it.
 the animation is a real time feed from the imaginary agent farm where we grow our ai agents.
-we look through a stationary camera positioned at eye level 25 meters from the barn in which these agents grow. 
-the barn is dull red, positioned on the right of the frame. the frame's horizon line is 1/4 of the frame width 
-from the bottom.
-the ground features grass, slowly moving in the wind, some trees, a forest in the distance behind the barn. 
-occasionally, in day time, we can see a tractor moving across the field. 
+we look through a stationary camera positioned at eye level 25 meters from the barn in which these agents grow. the barn is dull red, positioned on the right of the frame. the frame's horizon line is 1/4 of the frame width from the bottom.
+the ground features grass, slowly moving in the wind, some trees, a forest in the distance behind the barn. occasionally, in day time, we can see a tractor moving across the field. every now and then, about maybe once an hour, small groups of people come or leave the barn.
 the sky features some clouds slowly moving across it. very slowly. occasionally, birds or planes cross the sky.
-the color of the sky, the lighting conditions everywhere matches the browser's time: if I look at the animation 
-in the morning, the sky looks like morning sky. if at sunset, there is sunset. if at night - its the night sky, 
-with imperceptibly moving stars, possibly clouds.
+the color of the sky, the lighting conditions everywhere matches the browser's time: if I look at the animation in the morning, the sky looks like morning sky. if at sunset, there is sunset. if at night - its the night sky, with imperceptibly moving stars, possibly clouds.
+i would like to implement this using a framework vs html5 canvas.
 
-the farm grows AI agents. there are 2 people working there from 9 to 5. they take an hour lunch at noon.
+we are working on website agent.farm. the farm grows AI agents. there are 2 people working there from 9 to 5. they take an hour lunch at noon.
 the farm is in the field, in a huge red barn.
 we want to show a window with the feed from our farm to see site visitors what goes on there in real time.
-we set up 2 cameras: exterior and interior. we show interior while the people are in, exterior while they are out.
-we cut between the shots when the people enter or exit the barn. 
+we set up 2 cameras: exterior and interior. we show interior while the people are in, exterior while they are out. we cut between the shots when the people enter or exit the barn.
 exterior is already done.
 interior:
-wide lens shows some floor, up to 1/4th of the frame. the rest is the opposite wall and some ceiling, with wooden 
-rafters, light fixtures, etc. there is a large window on that wall, to its left. we can see a bit of exterior 
-through it: some forest in the distance. the entrance to the barn, a door, is behind us. the furniture is minimal 
-and modern, white, appropriate for a tech startup. there are several large server racks blinking in the corner, 
-cut off in the left side of the frame to show they are long. a couple of desks, a bean bag chair, a kitchen. 
-a white board on a tripod. the two people usually sit at their desks, near each other. one of them sometimes 
-gets up and walks to the other's desk, they both walk to the whiteboard and draw there ai-related things. 
-sometimes one gets up from the desk and walks out of frame. you can improvise the rest.
-they work on training ai agents.
-style: cartoon, shapes clearly recognizable, so people do look like people, tables like tables. people walk on the 
-floor, never hover above it.
+wide lens shows some floor, up to 1/4th of the frame. the rest is the opposite wall and some ceiling, with wooden rafters, light fixtures, etc. there is a large window on that wall, to its left. we can see a bit of exterior through it: some forest in the distance. the entrance to the barn, a door, is behind us. the furniture is minimal and modern, white, appropriate for a tech startup. there are several large server racks blinking in the corner, cut off in the left side of the frame to show they are long. a couple of desks, a bean bag chair, a kitchen. a white board on a tripod. the two people usually sit at their desks, near each other. one of them sometimes gets up and walks to the other's desk, they both walk to the whiteboard and draw there ai-related things. sometimes one gets up from the desk and walks out of frame. you can improvise the rest.
+just imagine that they work on training ai agents.
+style: cartoon, shapes clearly recognizable, so people do look like people, tables like tables. people walk on the floor, never hover above it.
+please be concise in your answers.
+let's brainstorm this further. the outcome of this conversation is the specification enough to build this animation.
 
 
 # Agent Farm Interior Scene Specification
